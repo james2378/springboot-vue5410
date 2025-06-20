@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>字典管理</title>
+    <#include "/header.html">
+        </head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.name" @keyup.enter="query" placeholder="行政区域名称">
+            </div>
+            <a class="btn btn-default" @click="query">查询</a>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+            <a class="btn btn-primary" onclick="test()"><i class="fa fa-pencil-square-o"></i>&nbsp;导出数据</a>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 control-label">id</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.id" placeholder="id"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">项目名称</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.name" placeholder="项目名称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">项目类型</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.xmType" placeholder="项目类型"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">项目地址</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.xmDizhi" placeholder="项目地址"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">录入人姓名</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.username" placeholder="录入人姓名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">录入日期</div>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" v-model="ysWater.lrTime" placeholder="录入日期"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">工地负责人</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.gzUsername" placeholder="工地负责人"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">设计师</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.sjs" placeholder="设计师"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">监理人员</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.jlry" placeholder="监理人员"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">合同金额</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.money" placeholder="合同金额"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">施工日期</div>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" v-model="ysWater.sgTime" placeholder="施工日期"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">结束日期</div>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" v-model="ysWater.jsTime" placeholder="结束日期"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">材料品牌</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.clpp" placeholder="材料品牌"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">施工人员</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.sgUsername" placeholder="施工人员"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">考核结果</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.khjg" placeholder="考核结果"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">备注</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="ysWater.remark" placeholder="备注"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="${request.contextPath}/statics/js/modules/sys/ys_wgDj.js?_${.now?long}"></script>
+<script src="${request.contextPath}/statics/js/tableExport.js"></script>
+<script type="text/javascript">
+
+    function test() {
+        var url = "sys/ysWater/export";
+        downloadFile(baseURL + url,{ys_type:"水电装修验收"})
+    }
+    function downloadFile(url, o) {
+        var form = $("<form></form>").attr("action", url).attr("method", "post");
+        for (var key in o) {
+            form.append($("<input></input>").attr("type", "hidden").attr("name", key).attr("value", o[key]));
+        }
+        form.appendTo('body').submit().remove();
+    }
+
+</script>
+</body>
+</html>
